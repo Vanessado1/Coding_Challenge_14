@@ -30,6 +30,10 @@ function supportTicket(name, description, priorityLevel) {
     // append ticket to the ticket container 
     const ticketContainer = document.getElementById('ticketContainer');
     ticketContainer.appendChild(ticket);
+    // add double click event listener
+    ticket.addEventListener('dblclick', () => {
+        enableEditing(ticket, nameHeading, issueDescription, priorityLabel);
+    });
 }
 // Task 3 
 function highlightHighPriorityTickets() {
@@ -52,6 +56,43 @@ function setupEventListeners() {
         console.log('Ticket clicked:', event.target);
     });
 }
+
+// Task 5- enable inline editing 
+function enableEditing(ticket, nameHeading, issueDescription, priorityLabel) {
+    // input new name value 
+    const nameInput = document.createElement('input');
+    nameInput.type = 'text';
+    nameInput.value = nameHeading.textContent;
+    // input new issue description value 
+    const descriptionInput = document.createElement('input');
+    descriptionInput.type = 'text';
+    descriptionInput.value = issueDescription.textContent;
+    // input new priority level value 
+    const priorityInput = document.createElement('input');
+    priorityInput.type = 'text';
+    priorityInput.value = priorityLabel.textContent;
+
+    // create a save button 
+    const saveButton = document.createElement('button');
+    saveButton.textContent = 'Save';
+    saveButton.addEventListener('click', () => {
+        nameHeading.textContent = nameInput.value;
+        issueDescription.textContent = descriptionInput.value;
+        priorityLabel.textContent = priorityInput.value;
+
+    // remove input fields and save button
+    ticket.replaceChild(nameHeading, nameInput);
+    ticket.replaceChild(issueDescription, descriptionInput);
+    ticket.replaceChild(priorityLabel, priorityInput);
+    ticket.removeChild(saveButton);
+    });
+    // replace static content with input fields 
+    ticket.replaceChild(nameInput, nameHeading);
+    ticket.replaceChild(descriptionInput, issueDescription);
+    ticket.replaceChild(priorityInput, priorityLabel);
+    ticket.appendChild(saveButton);
+}
+
 
 // list all customer support tickets 
 supportTicket('Alice Johnson', 'Unable to reset password', 'High');
