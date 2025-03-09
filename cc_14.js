@@ -21,8 +21,10 @@ function supportTicket(name, description, priorityLevel) {
     // create and append resolve button 
     const resolveButton = document.createElement('button');
     resolveButton.textContent = 'Resolve';
-    resolveButton.addEventListener('click', () => {
+    resolveButton.addEventListener('click', (event) => {
+        event.stopPropagation(); // prevents events from bubbling 
         ticket.remove();
+        console.log(`Ticket for ${name} resolved and removed.`);
     });
     ticket.appendChild(resolveButton);
     // append ticket to the ticket container 
@@ -37,7 +39,17 @@ function highlightHighPriorityTickets() {
     const highPriorityArray = Array.from(highPriorityTickets);
     // updates high priority tickets 
     highPriorityArray.forEach(ticket => {
-        ticket.computedStyleMap.backgroundColor = 'red';
+        ticket.style.backgroundColor ='rgb(234, 251, 152)';
+        ticket.style.border = '2px solid green';
+    });
+}
+// Task 4 
+// setup a event listener function 
+function setupEventListeners() {
+    const ticketContainer = document.getElementById('ticketContainer');
+
+    ticketContainer.addEventListener('click',(event) => {
+        console.log('Ticket clicked:', event.target);
     });
 }
 
